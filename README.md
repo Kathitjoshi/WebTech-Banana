@@ -2,16 +2,18 @@
 # Create an Indian Budget 2024 survey form template using HTML tags headings, paragraphs, anchor tags, tables, images, forms and lists.
 
 # This HTML template should include:
+
 Heading “Indian Budget 2024 Survey Form”.
 An overview of the budget highlights in a table with the table heading “Indian Budget 2024 Highlights”Form consisting of multiple fields and a list of schemes announced in the 2024 budget by the Finance Minister.
 
-# (i)	A link to display more detailed information on the budget.
+(i)	A link to display more detailed information on the budget.
 (ii)	Background color to the table and page.
 (iii)	Row span and column span wherever needed.
 (iv)	Use external CSS for styling the webpage.
 (v)	Basic JavaScript function to handle the feedback form submission.
 
 The web page should display
+
 # I.	Form consisting of multiple fields which should include
 
 A.	Textboxes
