@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Budget</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <h2 id="heading_budget">Indian Budget 2024 Survey Form</h2>
+    <img src="pic.png" alt="Indian Budget" class="budget_img" height="400px" width="300px" align="right">
+    <img src="pic.png" alt="Indian Budget" class="budget_img" height="400px" width="300px">
+    <div class="table_budget">
+        <h2 style="color: rgb(17, 122, 17);">Indian Budget 2024 Highlights</h2>
+        <table class="table_details">
+            <tr style="background-color: rgb(200, 199, 199);">
+                <th>Sector</th>
+                <th>Allocation(in crores)</th>
+                <th>Percentage Increase</th>
+            </tr>
+            <tr>
+                <td>Health Care</td>
+                <td>2,50,000</td>
+                <td>15%</td>
+            </tr>
+            <tr>
+                <td>Education</td>
+                <td>1,80,000</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>Infrastructure</td>
+                <td>3,20,000</td>
+                <td>20%</td>
+            </tr>
+        </table>
+        <p class="Visit_budget">For more details visit the <a href="https://www.indiabudget.gov.in/" style="color: rgb(17, 122, 17);">Indian Budget 2024 Full Report</a></p>
+    </div>
+    <div class="budget_schemes">
+        <h2 style="color: rgb(17, 122, 17);">Schemes Announced In Budget 2024</h2>
+        <ul>
+            <li>Pradhan Mantri Health Mission</li>
+            <li>National Education Enhancement Scheme</li>
+            <li>Infrastructure Development Fund</li>
+            <li>Renewable Energy Boost Initiative</li>
+        </ul>
+    </div>
+    <div class="feedback_form">
+        <h2 style="color: rgb(17, 122, 17);">Feedback Form</h2>
+        <form class="form_details" onsubmit="return onSubmit()">
+            <strong><label for="name">Name:</label></strong>
+            <input id="name" type="text" required>
+            <strong><label for="gender">Gender:</label></strong>
+            <div class="gender">
+                <p><input name="gender" type="radio" required> Male</p>
+                <p><input name="gender" type="radio" required> Female</p>
+            </div>
+            <strong><label for="email">Email:</label></strong>
+            <input id="email" type="email" required>
+            <strong><label for="number">Phone Number:</label></strong>
+            <input id="number" type="number" required>
+            
+            <strong><label for="state">State:</label></strong>
+            <select name="state" id="state" required>
+                <option value="">Select State</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Other">Other</option>
+            </select>
+            <strong><label for="feedback">Your Feedback:</label></strong>
+            <textarea name="feedback" id="feedback" rows="5" required></textarea>
+            <div class="btn">
+                <input type="submit" value="Submit">
+                <input type="reset" value="Reset">
+            </div>
+        </form>
+    </div>
+
+    <footer style="background-color: rgb(196, 193, 193); color: black; padding: 20px ; text-align: center;">
+        &copy; 2024 Indian Goverment Budget Division
+    </footer>
+
+    <script>
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        function validatePhoneNumber(phoneNumber) {
+            const phonePattern = /^\d{10}$/; 
+            return phonePattern.test(phoneNumber);
+        }
+
+        function onSubmit() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let phoneNumber = document.getElementById("number").value;
+
+            if (!validateEmail(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            if (!validatePhoneNumber(phoneNumber)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            alert("Thank You for your Feedback!");
+            return true; 
+        }
+    </script>
+</body>
+</html>
