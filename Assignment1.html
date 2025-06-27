@@ -3,115 +3,807 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Budget</title>
-    <link rel="stylesheet" href="style.css">
-    
+    <title>Indian Budget 2024 - Interactive Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 80px;
+        }
+
+        .hero-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3498db;
+            padding-left: 1rem;
+        }
+
+        .interactive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .interactive-table th,
+        .interactive-table td {
+            padding: 1rem;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+
+        .interactive-table th {
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            color: white;
+            font-weight: 600;
+        }
+
+        .interactive-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .interactive-table tr:hover {
+            background-color: #e3f2fd;
+            transform: scale(1.02);
+        }
+
+        .progress-bar {
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            height: 8px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        .scheme-card {
+            background: linear-gradient(45deg, #f39c12, #e74c3c);
+            color: white;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .scheme-card:hover {
+            transform: translateX(10px);
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #bdc3c7;
+        }
+
+        .footer {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .chart-container {
+            margin: 2rem 0;
+            height: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .animate-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
-    <h2 id="heading_budget">Indian Budget 2024 Survey Form</h2>
-    <img src="pic.png" alt="Indian Budget" class="budget_img" height="400px" width="300px" align="right">
-    <img src="pic.png" alt="Indian Budget" class="budget_img" height="400px" width="300px">
-    <div class="table_budget">
-        <h2 style="color: rgb(17, 122, 17);">Indian Budget 2024 Highlights</h2>
-        <table class="table_details">
-            <tr style="background-color: rgb(200, 199, 199);">
-                <th>Sector</th>
-                <th>Allocation(in crores)</th>
-                <th>Percentage Increase</th>
-            </tr>
-            <tr>
-                <td>Health Care</td>
-                <td>2,50,000</td>
-                <td>15%</td>
-            </tr>
-            <tr>
-                <td>Education</td>
-                <td>1,80,000</td>
-                <td>10%</td>
-            </tr>
-            <tr>
-                <td>Infrastructure</td>
-                <td>3,20,000</td>
-                <td>20%</td>
-            </tr>
-        </table>
-        <p class="Visit_budget">For more details visit the <a href="https://www.indiabudget.gov.in/" style="color: rgb(17, 122, 17);">Indian Budget 2024 Full Report</a></p>
-    </div>
-    <div class="budget_schemes">
-        <h2 style="color: rgb(17, 122, 17);">Schemes Announced In Budget 2024</h2>
-        <ul>
-            <li>Pradhan Mantri Health Mission</li>
-            <li>National Education Enhancement Scheme</li>
-            <li>Infrastructure Development Fund</li>
-            <li>Renewable Energy Boost Initiative</li>
-        </ul>
-    </div>
-    <div class="feedback_form">
-        <h2 style="color: rgb(17, 122, 17);">Feedback Form</h2>
-        <form class="form_details" onsubmit="return onSubmit()">
-            <strong><label for="name">Name:</label></strong>
-            <input id="name" type="text" required>
-            <strong><label for="gender">Gender:</label></strong>
-            <div class="gender">
-                <p><input name="gender" type="radio" required> Male</p>
-                <p><input name="gender" type="radio" required> Female</p>
-            </div>
-            <strong><label for="email">Email:</label></strong>
-            <input id="email" type="email" required>
-            <strong><label for="number">Phone Number:</label></strong>
-            <input id="number" type="number" required>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">🏛️ Indian Budget 2024</div>
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#allocations">Allocations</a></li>
+                <li><a href="#schemes">Schemes</a></li>
+                <li><a href="#feedback">Feedback</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero-section animate-on-scroll">
+            <h1 class="hero-title">Indian Budget 2024</h1>
+            <p class="hero-subtitle">Empowering India's Growth Through Strategic Investments</p>
             
-            <strong><label for="state">State:</label></strong>
-            <select name="state" id="state" required>
-                <option value="">Select State</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Other">Other</option>
-            </select>
-            <strong><label for="feedback">Your Feedback:</label></strong>
-            <textarea name="feedback" id="feedback" rows="5" required></textarea>
-            <div class="btn">
-                <input type="submit" value="Submit">
-                <input type="reset" value="Reset">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="750000">0</div>
+                    <div class="stat-label">Total Budget (Crores)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">Avg Growth (%)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="4">0</div>
+                    <div class="stat-label">Major Schemes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="28">0</div>
+                    <div class="stat-label">States Benefited</div>
+                </div>
             </div>
-        </form>
+        </section>
+
+        <section id="allocations" class="section animate-on-scroll">
+            <h2 class="section-title">Budget Allocations 2024</h2>
+            <div class="chart-container">
+                <canvas id="budgetChart" width="400" height="200"></canvas>
+            </div>
+            
+            <table class="interactive-table">
+                <thead>
+                    <tr>
+                        <th>Sector</th>
+                        <th>Allocation (₹ Crores)</th>
+                        <th>Percentage Increase</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Healthcare</td>
+                        <td>₹2,50,000</td>
+                        <td>15%</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-width="75%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Education</td>
+                        <td>₹1,80,000</td>
+                        <td>10%</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-width="60%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Infrastructure</td>
+                        <td>₹3,20,000</td>
+                        <td>20%</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-width="85%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Renewable Energy</td>
+                        <td>₹1,50,000</td>
+                        <td>25%</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-width="90%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="schemes" class="section animate-on-scroll">
+            <h2 class="section-title">Key Schemes Announced</h2>
+            <div class="scheme-card" onclick="showSchemeDetails('PM Health Mission')">
+                <h3>🏥 Pradhan Mantri Health Mission</h3>
+                <p>Comprehensive healthcare coverage for all citizens</p>
+            </div>
+            <div class="scheme-card" onclick="showSchemeDetails('Education Enhancement')">
+                <h3>📚 National Education Enhancement Scheme</h3>
+                <p>Digital transformation of education infrastructure</p>
+            </div>
+            <div class="scheme-card" onclick="showSchemeDetails('Infrastructure Fund')">
+                <h3>🏗️ Infrastructure Development Fund</h3>
+                <p>Modernizing transportation and urban infrastructure</p>
+            </div>
+            <div class="scheme-card" onclick="showSchemeDetails('Renewable Energy')">
+                <h3>🌱 Renewable Energy Boost Initiative</h3>
+                <p>Accelerating India's transition to clean energy</p>
+            </div>
+        </section>
+
+        <section id="feedback" class="section animate-on-scroll">
+            <h2 class="section-title">Share Your Feedback</h2>
+            <div class="form-container">
+                <form id="feedbackForm" onsubmit="return handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Gender *</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="male" name="gender" value="male" required>
+                                <label for="male">Male</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="female" name="gender" value="female" required>
+                                <label for="female">Female</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="other" name="gender" value="other" required>
+                                <label for="other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                        <small>Enter 10-digit mobile number</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select your state</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="West Bengal">West Bengal</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priority">Which sector should get highest priority?</label>
+                        <select id="priority" name="priority">
+                            <option value="">Select priority sector</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Education">Education</option>
+                            <option value="Infrastructure">Infrastructure</option>
+                            <option value="Renewable Energy">Renewable Energy</option>
+                            <option value="Agriculture">Agriculture</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rating">Rate this budget (1-5) *</label>
+                        <input type="range" id="rating" name="rating" min="1" max="5" value="3" required>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #7f8c8d;">
+                            <span>Poor</span>
+                            <span>Average</span>
+                            <span>Excellent</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="feedback">Your Detailed Feedback *</label>
+                        <textarea id="feedback" name="feedback" rows="5" placeholder="Share your thoughts about the budget allocations and schemes..." required></textarea>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                        <button type="reset" class="btn btn-secondary">Reset Form</button>
+                    </div>
+                </form>
+            </div>
+        </section>
     </div>
 
-    <footer style="background-color: rgb(196, 193, 193); color: black; padding: 20px ; text-align: center;">
-        &copy; 2024 Indian Goverment Budget Division
+    <footer class="footer">
+        <p>&copy; 2024 Government of India - Budget Division | Developed for Educational Purposes</p>
+        <p>For official information, visit <a href="https://www.indiabudget.gov.in/" style="color: #3498db;">indiabudget.gov.in</a></p>
     </footer>
 
+    <!-- Modal -->
+    <div id="schemeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Scheme Details</h2>
+            <p id="modalContent">Loading...</p>
+        </div>
+    </div>
+
     <script>
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 20);
+            });
+        }
+
+        // Progress Bar Animation
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        }
+
+        // Scroll Animation
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('show');
+                }
+            });
+        }
+
+        // Form Validation and Submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Basic validation
+            const email = formData.get('email');
+            const phone = formData.get('phone');
+            
+            if (!validateEmail(email)) {
+                showAlert('Please enter a valid email address', 'error');
+                return false;
+            }
+            
+            if (!validatePhone(phone)) {
+                showAlert('Please enter a valid 10-digit phone number', 'error');
+                return false;
+            }
+            
+            // Simulate form submission
+            showAlert('Thank you for your valuable feedback! 🙏', 'success');
+            form.reset();
+            
+            return false;
+        }
+
         function validateEmail(email) {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailPattern.test(email);
         }
 
-        function validatePhoneNumber(phoneNumber) {
-            const phonePattern = /^\d{10}$/; 
-            return phonePattern.test(phoneNumber);
+        function validatePhone(phone) {
+            const phonePattern = /^\d{10}$/;
+            return phonePattern.test(phone);
         }
 
-        function onSubmit() {
-            let name = document.getElementById("name").value;
-            let email = document.getElementById("email").value;
-            let phoneNumber = document.getElementById("number").value;
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? '#2ecc71' : '#e74c3c'};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                z-index: 3000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 4000);
+        }
 
-            if (!validateEmail(email)) {
-                alert("Please enter a valid email address.");
-                return false;
+        // Modal functionality
+        function showSchemeDetails(schemeName) {
+            const modal = document.getElementById('schemeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            const schemeDetails = {
+                'PM Health Mission': 'A comprehensive healthcare initiative providing universal health coverage, telemedicine services, and strengthening primary healthcare infrastructure across rural and urban India.',
+                'Education Enhancement': 'Digital transformation of education with smart classrooms, online learning platforms, teacher training programs, and scholarship schemes for meritorious students.',
+                'Infrastructure Fund': 'Major investment in highways, railways, airports, and smart city development to boost economic growth and connectivity across the nation.',
+                'Renewable Energy': 'Accelerating solar and wind energy projects, promoting electric vehicles, and supporting green technology innovations for a sustainable future.'
+            };
+            
+            modalTitle.textContent = schemeName;
+            modalContent.textContent = schemeDetails[schemeName] || 'Details coming soon...';
+            modal.style.display = 'block';
+        }
+
+        // Simple Chart Drawing
+        function drawChart() {
+            const canvas = document.getElementById('budgetChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Sample data
+            const data = [250000, 180000, 320000, 150000];
+            const labels = ['Healthcare', 'Education', 'Infrastructure', 'Renewable Energy'];
+            const colors = ['#3498db', '#2ecc71', '#f39c12', '#9b59b6'];
+            
+            const maxValue = Math.max(...data);
+            const chartHeight = 150;
+            const chartWidth = canvas.width - 100;
+            const barWidth = chartWidth / data.length - 20;
+            
+            // Draw bars
+            data.forEach((value, index) => {
+                const barHeight = (value / maxValue) * chartHeight;
+                const x = 50 + index * (barWidth + 20);
+                const y = canvas.height - barHeight - 30;
+                
+                ctx.fillStyle = colors[index];
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                // Labels
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(labels[index], x + barWidth/2, canvas.height - 10);
+                ctx.fillText('₹' + (value/1000) + 'K Cr', x + barWidth/2, y - 5);
+            });
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounters();
+            animateProgressBars();
+            drawChart();
+        });
+
+        window.addEventListener('scroll', handleScrollAnimation);
+
+        // Modal close functionality
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('schemeModal');
+            if (event.target === modal || event.target.classList.contains('close')) {
+                modal.style.display = 'none';
             }
+        });
 
-            if (!validatePhoneNumber(phoneNumber)) {
-                alert("Please enter a valid 10-digit phone number.");
-                return false;
-            }
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-            alert("Thank You for your Feedback!");
-            return true; 
+        // Rating slider update
+        const ratingSlider = document.getElementById('rating');
+        if (ratingSlider) {
+            ratingSlider.addEventListener('input', function() {
+                const value = this.value;
+                const labels = ['Poor', 'Below Average', 'Average', 'Good', 'Excellent'];
+                console.log('Rating:', value, '-', labels[value - 1]);
+            });
         }
     </script>
+
+    <style>
+        /* Animation keyframes */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </body>
 </html>
