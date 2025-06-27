@@ -2,6 +2,13 @@
 
 A modern, responsive web application showcasing the Indian Budget 2024 with interactive features, animated visualizations, and a comprehensive feedback system.
 
+![Language](https://img.shields.io/badge/Language-HTML-blue?style=for-the-badge&logo=HTML)
+![Language](https://img.shields.io/badge/Language-CSS-blue?style=for-the-badge&logo=CSS)
+![Language](https://img.shields.io/badge/Language-JS-blue?style=for-the-badge&logo=JS)
+![Output](https://img.shields.io/badge/Output-Form-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+
 ## 📋 Table of Contents
 
 - [Overview](#overview)
